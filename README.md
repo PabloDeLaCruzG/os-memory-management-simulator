@@ -2,9 +2,6 @@
 
 Este proyecto es un simulador desarrollado para la asignatura de Sistemas Operativos. Implementa y visualiza algoritmos de gestión de memoria dinámica (particiones variables) como **Primer Hueco (First-Fit)** y **Siguiente Hueco (Next-Fit)** a través de una interfaz web interactiva.
 
-**(Añade aquí una captura de pantalla de la página de resultados. ¡Hará que tu README luzca increíble!)**
-![Captura de Pantalla de Resultados](ruta/a/tu/imagen.png)
-
 ---
 
 ## ✨ Características Principales
@@ -106,6 +103,6 @@ P3 3 1000 5
 
 ## 👨‍💻 Autor
 
-*   **Pablo De La Cruz Gómez** - [Tu Usuario de GitHub](https://github.com/PabloDeLaCruzG)
+*   **Pablo De La Cruz Gómez** - [PabloDeLaCruzG](https://github.com/PabloDeLaCruzG)
 
 Este proyecto fue desarrollado como parte de la Práctica 3 de la asignatura de Sistemas Operativos.
