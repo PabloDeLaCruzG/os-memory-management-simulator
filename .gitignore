@@ -1,0 +1,20 @@
+/venv/
+/env/
+/.venv/
+__pycache__/
+*.py[cod]
+
+static/*
+!static/.gitkeep
+
+# Archivos temporales generados localmente
+temp_entry.txt
+particiones.txt
+
+.DS_Store
+
+.vscode/
+.idea/
+
+*.log
+*.swp

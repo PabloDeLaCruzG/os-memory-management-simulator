@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de la Simulación</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Resultados de la Simulación</h1>
+    <a href="/">&larr; Volver</a>
+    <div class="timeline">
+        {% for state in history %}
+        <div class="event">
+            <h2>Instante de Tiempo: {{ state.time }}</h2>
+            <p><strong>Evento:</strong> {{ state.event }}</p>
+            <p><strong>Estado en texto:</strong> <code>{{ state.text }}</code></p>
+            <img src="{{ url_for('static', filename=state.graph.split('/')[-1]) }}"
+                alt="Gráfico de memoria en t={{ state.time }}">
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
