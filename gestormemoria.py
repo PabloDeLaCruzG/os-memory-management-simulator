@@ -1,3 +1,12 @@
+import sys
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import os
+import math
+
+
 class MemoryNode:
     """
     Representa un node en una lista de doble enlace,
@@ -209,9 +218,7 @@ class MemoryManager:
         )
         return False
 
-import matplotlib
-matplotlib.use('Agg') # Para que no abra su propia interfaz
-import matplotlib.pyplot as plt
+
 def generate_memory_graph(node_list, actual_time, save_path):
     """
     Genera un grafico de barras que representa el estado de la memoria y lo guarda en imagen
@@ -277,23 +284,38 @@ class Process:
     def __init__(self, id, arrival_moment, required_memory, execution_time):
         self.id = id
         self.arrival_moment = int(arrival_moment)
-        self.required_memory = int(required_memory)
+
+        # redondea hacia arriba
+        mem_req = int(required_memory)
+        if mem_req % 100 != 0:
+            self.required_memory = ((mem_req // 100) + 1) * 100
+        else:
+            self.required_memory = mem_req
+
         self.execution_time = int(execution_time)
+        self.original_memory = int(required_memory)
 
     def __repr__(self):
-        return f"Proceso {self.id}, llega en {self.arrival_moment}, memoria requerida {self.required_memory}, tiempo de ejecucion {self.execution_time}"
-
-
-import sys
+        return f"Proceso {self.id}, llega en {self.arrival_moment}, memoria requerida {self.original_memory} --> {self.required_memory}, tiempo de ejecucion {self.execution_time}"
 
 
 class Simulator:
-    def __init__(self, entry_file):
+    def __init__(self, entry_file, session_id):
 
         self.pending_processes = self._load_processes(entry_file)
         self.memory_manager = MemoryManager()
         self.actual_time = 0
         self.state_history = []
+        self.session_id = session_id
+
+        # Crea carpeta para la sesion
+        self.session_dir = os.path.join("static", self.session_id)
+        if not os.path.exists(self.session_dir):
+            os.makedirs(self.session_dir)
+
+        # Archivo de salida
+        self.output_file = os.path.join(self.session_dir, "particiones.txt")
+        open(self.output_file, "w").close()  # Limpia archivo de salida
 
     def _load_processes(self, entry_file):
         """
@@ -321,27 +343,37 @@ class Simulator:
             yield node
             node = node.next
 
-    def _state_add(self, event_description=""):
+    def _state_add(self, event_description="", error=False):
         """
         Registra el estado actual (texto y grafico) y lo añade al historial
         """
-        txt_state = f"{self.actual_time} "
         nodes = list(self._iter_nodes())
         partitions_str = [str(node) for node in nodes]
-        txt_state += " ".join(partitions_str)
+        txt_state = f"{self.actual_time} " + " ".join(partitions_str)
 
-        # Genera un nombre de archivo único para evitar colisiones si hay varios usuarios
-        graph_path_rel = f"static/memory_t{self.actual_time}.png"
-        generate_memory_graph(nodes, self.actual_time, graph_path_rel)
+        # Si no hay error, genera el grafico
+        web_graph_path = None
+        if not error:
+            # Guarda imagen en la carpeta de la sesion
+            graph_filename = f"memory_t{self.actual_time}_{len(self.state_history)}.png"
+            graph_path_rel = os.path.join(self.session_dir, graph_filename)
+            generate_memory_graph(nodes, self.actual_time, graph_path_rel)
+            # Guarda en el historial de la web
+            web_graph_path = f"{self.session_id}/{graph_filename}"
 
         self.state_history.append(
             {
                 "time": self.actual_time,
                 "text": txt_state,
-                "graph": graph_path_rel,
+                "graph": web_graph_path,
                 "event": event_description,
+                "is_error": error,
             }
         )
+
+        # Escribe en particiones.txt el estado
+        with open(self.output_file, "a") as f:
+            f.write(f"{txt_state}\n")
 
     def run(self, algorithm):
         """
@@ -376,54 +408,50 @@ class Simulator:
 
             self.actual_time = next_event_time
 
-            # Revisa salidas de procesos
-            processes_to_release = []
-            state_changed = False
+            # 1. Salidas
+            released = []
             for node in self._iter_nodes():
                 if node.state == "ocupado" and node.exit_time == self.actual_time:
-                    processes_to_release.append(node.process_id)
+                    released.append(node.process_id)
 
-            if processes_to_release:
-                event_desc = f"Salida de proceso(s): {', '.join(processes_to_release)}"
-                for pid in processes_to_release:
+            if released:
+                for pid in released:
                     self.memory_manager.release_memory(pid)
-                state_changed = True
+                # Registramos la salida
+                self._state_add(f"Salida: {', '.join(released)}")
 
-            # Revisa llegadas de procesos
+            # 2. Llegadas
             if (
                 self.pending_processes
                 and self.pending_processes[0].arrival_moment == self.actual_time
             ):
-                current_process = self.pending_processes.pop(0)
-                event_desc = f"Llegada de proceso {current_process.id} (pide {current_process.required_memory} KB)"
+                proc = self.pending_processes.pop(0)
 
                 if algorithm == "first_fit":
                     assigned = self.memory_manager.put_first_gap(
-                        current_process.id,
-                        current_process.required_memory,
+                        proc.id,
+                        proc.required_memory,
                         self.actual_time,
-                        current_process.execution_time,
+                        proc.execution_time,
                     )
-                else:  # 'next_fit'
+                else:
                     assigned = self.memory_manager.put_next_gap(
-                        current_process.id,
-                        current_process.required_memory,
+                        proc.id,
+                        proc.required_memory,
                         self.actual_time,
-                        current_process.execution_time,
+                        proc.execution_time,
                     )
 
-                if not assigned:
-                    event_desc += " -> ¡FALLO! No hay hueco."
-
-                state_changed = True
-
-            # Registra el estado si algo ha cambiado en este instante
-            if state_changed:
-                self._state_add(event_desc)
-
-        # Escribe el resultado final en particiones.txt
-        with open("particiones.txt", "w") as f:
-            for state in self.state_history:
-                # Quita la descripcion del evento para el formato del fichero
-                text_parts = state["text"].split(" ")
-                f.write(f"{state['time']} {' '.join(text_parts[1:])}\n")
+                if assigned:
+                    event_desc = f"Llegada {proc.id} (Req: {proc.original_memory} -> Asig: {proc.required_memory})"
+                    self._state_add(event_desc)
+                else:
+                    # Error: proceso no cabe - agregar solo mensaje, NO cambiar estado
+                    error_msg = f"Llegada {proc.id} - ¡FALLO! No hay memoria (Req: {proc.original_memory} → {proc.required_memory})"
+                    self.state_history.append({
+                        "time": self.actual_time,
+                        "text": "",
+                        "graph": None,
+                        "event": error_msg,
+                        "is_error": True,
+                    })
