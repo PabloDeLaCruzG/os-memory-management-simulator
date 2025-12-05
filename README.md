@@ -1,40 +1,40 @@
-# 💻 Simulador de Gestión de Memoria con Particiones Variables
+# 💻 Simulador de Gestion de Memoria con Particiones Variables
 
-Este proyecto es un simulador desarrollado para la asignatura de Sistemas Operativos. Implementa y visualiza algoritmos de gestión de memoria dinámica (particiones variables) como **Primer Hueco (First-Fit)** y **Siguiente Hueco (Next-Fit)** a través de una interfaz web interactiva.
+Este proyecto es un simulador desarrollado para la asignatura de Sistemas Operativos. Implementa y visualiza algoritmos de gestion de memoria dinamica (particiones variables) como **Primer Hueco (First-Fit)** y **Siguiente Hueco (Next-Fit)** a través de una interfaz web interactiva.
 
 ---
 
-## ✨ Características Principales
+## ✨ Caracteristicas Principales
 
-*   **Simulación Basada en Eventos:** El simulador procesa una lista de procesos desde un archivo de entrada, gestionando sus llegadas y salidas en el tiempo.
-*   **Algoritmos de Asignación:**
+*   **Simulacion Basada en Eventos:** El simulador procesa una lista de procesos desde un archivo de entrada, gestionando sus llegadas y salidas en el tiempo.
+*   **Algoritmos de Asignacion:**
     *   Primer Hueco (First-Fit).
     *   Siguiente Hueco (Next-Fit).
 *   **Interfaz Web con Flask:** Permite al usuario subir su propio archivo de procesos, elegir el algoritmo y ver los resultados en el navegador.
-*   **Visualización Gráfica con Matplotlib:** Genera un gráfico de barras del estado de la memoria en cada instante de tiempo, facilitando la comprensión del comportamiento de los algoritmos.
-*   **Gestión de Memoria Dinámica:** Simula la asignación, la división de huecos, la liberación y la fusión (coalescing) de huecos adyacentes.
-*   **Registro de Salida:** Genera un archivo `particiones.txt` con el historial del estado de la memoria, siguiendo el formato requerido por la práctica.
+*   **Visualizacion Grafica con Matplotlib:** Genera un grafico de barras del estado de la memoria en cada instante de tiempo, facilitando la comprension del comportamiento de los algoritmos.
+*   **Gestion de Memoria Dinamica:** Simula la asignacion, la division de huecos, la liberacion y la fusion (coalescing) de huecos adyacentes.
+*   **Registro de Salida:** Genera un archivo `particiones.txt` con el historial del estado de la memoria, siguiendo el formato requerido por la practica.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
 *   **Backend:** Python 3
 *   **Framework Web:** Flask
-*   **Visualización:** Matplotlib
+*   **Visualizacion:** Matplotlib
 *   **Frontend:** HTML5 / CSS3
 
 ---
 
-## 🚀 Cómo Ponerlo en Marcha
+## 🚀 Como Ponerlo en Marcha
 
-Sigue estos pasos para ejecutar el simulador en tu máquina local.
+Sigue estos pasos para ejecutar el simulador en tu maquina local.
 
 ### 1. Prerrequisitos
 
 *   Tener Python 3 instalado.
 
-### 2. Instalación
+### 2. Instalacion
 
 1.  **Clona el repositorio:**
     ```bash
@@ -53,28 +53,28 @@ Sigue estos pasos para ejecutar el simulador en tu máquina local.
     pip install -r requirements.txt
     ```
 
-### 3. Ejecución
+### 3. Ejecucion
 
-1.  **Inicia la aplicación Flask:**
+1.  **Inicia la aplicacion Flask:**
     ```bash
     python app.py
     ```
 
-2.  **Abre tu navegador** y ve a la siguiente dirección:
+2.  **Abre tu navegador** y ve a la siguiente direccion:
     [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 3.  **Usa la interfaz:**
     *   Sube un archivo `entrada.txt`.
-    *   Selecciona el algoritmo de asignación que deseas probar.
-    *   Haz clic en "Ejecutar Simulación" y observa los resultados.
+    *   Selecciona el algoritmo de asignacion que deseas probar.
+    *   Haz clic en "Ejecutar Simulacion" y observa los resultados.
 
 ---
 
 ## 📄 Formato del Archivo de Entrada
 
-El archivo `entrada.txt` debe contener un proceso por línea, con los campos separados por espacios, siguiendo este formato:
+El archivo `entrada.txt` debe contener un proceso por linea, con los campos separados por espacios, siguiendo este formato:
 
-`<ID_Proceso> <Instante_Llegada> <Memoria_Requerida> <Tiempo_Ejecución>`
+`<ID_Proceso> <Instante_Llegada> <Memoria_Requerida> <Tiempo_Ejecucion>`
 
 **Ejemplo:**
 ```
@@ -89,20 +89,20 @@ P3 3 1000 5
 
 ```
 .
-├── app.py                  # Lógica del servidor Flask
+├── app.py                  # Logica del servidor Flask
 ├── gestormemoria.py        # Clases principales del simulador (MemoryManager, Simulator)
 ├── requirements.txt        # Dependencias de Python
 ├── entrada.txt             # Archivo de ejemplo
 ├── templates/
-│   ├── index.html          # Página de inicio con el formulario
-│   └── results.html        # Página que muestra los resultados
-└── static/                 # Carpeta para guardar los gráficos generados
+│   ├── index.html          # Pagina de inicio con el formulario
+│   └── results.html        # Pagina que muestra los resultados
+└── static/                 # Carpeta para guardar los graficos generados
 ```
 
 ---
 
 ## 👨‍💻 Autor
 
-*   **Pablo De La Cruz Gómez** - [PabloDeLaCruzG](https://github.com/PabloDeLaCruzG)
+*   **Pablo De La Cruz Gomez** - [PabloDeLaCruzG](https://github.com/PabloDeLaCruzG)
 
-Este proyecto fue desarrollado como parte de la Práctica 3 de la asignatura de Sistemas Operativos.
+Este proyecto fue desarrollado como parte de la Practica 3 de la asignatura de Sistemas Operativos.

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Resultados de la Simulación</title>
+    <title>Resultados de la Simulacion</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -94,9 +94,9 @@
 
 <body>
     <div class="header-actions">
-        <h1>Resultados de la Simulación</h1>
+        <h1>Resultados de la Simulacion</h1>
         <div>
-            <a href="/" class="btn">← Nueva Simulación</a>
+            <a href="/" class="btn">← Nueva Simulacion</a>
             {% if session_id %}
             <a href="/download/{{ session_id }}" class="btn btn-download">Descargar particiones.txt</a>
             {% endif %}
@@ -113,9 +113,9 @@
             {% if not state.is_error and state.graph %}
             <p><strong>Estado en texto:</strong></p>
             <code>{{ state.text }}</code>
-            <img src="{{ url_for('static', filename=state.graph) }}" alt="Gráfico de memoria en t={{ state.time }}">
+            <img src="{{ url_for('static', filename=state.graph) }}" alt="Grafico de memoria en t={{ state.time }}">
             {% elif state.is_error %}
-            <p><em>ERROR: El proceso no pudo ser asignado - la memoria no cambió.</em></p>
+            <p><em>ERROR: El proceso no pudo ser asignado - la memoria no cambio.</em></p>
             {% endif %}
         </div>
         {% endfor %}

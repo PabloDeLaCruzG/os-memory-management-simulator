@@ -1,28 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Simulador de Gestión de Memoria</title>
+    <title>Simulador de Gestion de Memoria</title>
     <style>
-        body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
-        form { display: flex; flex-direction: column; gap: 15px; }
-        input, select { padding: 10px; }
-        button { padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input,
+        select {
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
-    <h1>Simulador de Gestión de Memoria</h1>
+    <h1>Simulador de Gestion de Memoria</h1>
     <form method="post" enctype="multipart/form-data">
         <label for="entry_file">Sube tu archivo <code>entrada.txt</code>:</label>
         <input type="file" id="entry_file" name="entry_file" required>
 
-        <label for="algorithm">Elige el algoritmo de asignación:</label>
+        <label for="algorithm">Elige el algoritmo de asignacion:</label>
         <select id="algorithm" name="algorithm">
             <option value="first_fit">Primer Hueco (First-Fit)</option>
             <option value="next_fit">Siguiente Hueco (Next-Fit)</option>
         </select>
 
-        <button type="submit">Ejecutar Simulación</button>
+        <button type="submit">Ejecutar Simulacion</button>
     </form>
 </body>
+
 </html>
