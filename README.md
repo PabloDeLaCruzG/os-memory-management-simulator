@@ -85,22 +85,6 @@ P3 3 1000 5
 
 ---
 
-## 📂 Estructura del Proyecto
-
-```
-.
-├── app.py                  # Logica del servidor Flask
-├── gestormemoria.py        # Clases principales del simulador (MemoryManager, Simulator)
-├── requirements.txt        # Dependencias de Python
-├── entrada.txt             # Archivo de ejemplo
-├── templates/
-│   ├── index.html          # Pagina de inicio con el formulario
-│   └── results.html        # Pagina que muestra los resultados
-└── static/                 # Carpeta para guardar los graficos generados
-```
-
----
-
 ## 👨‍💻 Autor
 
 *   **Pablo De La Cruz Gomez** - [PabloDeLaCruzG](https://github.com/PabloDeLaCruzG)
